@@ -21,6 +21,10 @@
 #ifndef _MY_KFIFO_H
 #define _MY_KFIFO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct kfifo {
 	unsigned char *buffer;	/* the buffer holding the data */
 	unsigned int size;	/* the size of the allocated buffer */
@@ -33,5 +37,9 @@ unsigned int kfifo_put(struct kfifo *fifo, unsigned char *buffer, unsigned int l
 unsigned int kfifo_get(struct kfifo *fifo, unsigned char *buffer, unsigned int len);
 void         kfifo_reset(struct kfifo *fifo);
 unsigned int kfifo_len(struct kfifo *fifo);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -251,5 +251,4 @@ static unsigned int __kfifo_get(struct kfifo *fifo,
 	fifo->out += len;
 
 	return len;
-
 }

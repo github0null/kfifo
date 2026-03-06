@@ -69,9 +69,9 @@ int kfifo_init(struct kfifo *fifo, unsigned char *buffer, unsigned int size)
 {
 	/* size must be a power of 2 */
 	if (!is_power_of_2(size))
-        return -1;
-    if (fifo == NULL)
-        return -1;
+		return -1;
+	if (fifo == NULL)
+		return -1;
 
 	fifo->buffer = buffer;
 	fifo->size   = size;

@@ -32,9 +32,9 @@
     #define smp_wmb()       __memory_changed()
 #elif defined(__GNUC__)
     #define __STATIC_INLINE static inline
-    #define smp_mb()        asm volatile("" : : : "memory")
-    #define smp_rmb()       asm volatile("" : : : "memory")
-    #define smp_wmb()       asm volatile("" : : : "memory")
+    #define smp_mb()        __asm volatile("" : : : "memory")
+    #define smp_rmb()       __asm volatile("" : : : "memory")
+    #define smp_wmb()       __asm volatile("" : : : "memory")
 #else
     #define __STATIC_INLINE
     #define smp_mb()
@@ -251,4 +251,5 @@ static unsigned int __kfifo_get(struct kfifo *fifo,
 	fifo->out += len;
 
 	return len;
+
 }

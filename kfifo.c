@@ -52,10 +52,10 @@ __STATIC_INLINE int min(int x, int y) {
     return y ^ ((x ^ y) & -(x < y)); // min(x, y)
 }
 
-static void         __kfifo_reset(struct kfifo *fifo);
-static unsigned int __kfifo_len(struct kfifo *fifo);
-static unsigned int __kfifo_put(struct kfifo *fifo, unsigned char *buffer, unsigned int len);
-static unsigned int __kfifo_get(struct kfifo *fifo, unsigned char *buffer, unsigned int len);
+__STATIC_INLINE void         __kfifo_reset(struct kfifo *fifo);
+__STATIC_INLINE unsigned int __kfifo_len(struct kfifo *fifo);
+__STATIC_INLINE unsigned int __kfifo_put(struct kfifo *fifo, unsigned char *buffer, unsigned int len);
+__STATIC_INLINE unsigned int __kfifo_get(struct kfifo *fifo, unsigned char *buffer, unsigned int len);
 
 /**
  * kfifo_init - allocates a new FIFO using a preallocated buffer
@@ -126,18 +126,7 @@ unsigned int kfifo_put(struct kfifo *fifo,
 unsigned int kfifo_get(struct kfifo *fifo,
                        unsigned char *buffer, unsigned int len)
 {
-	unsigned int ret;
-
-	ret = __kfifo_get(fifo, buffer, len);
-
-	/*
-	 * optimization: if the FIFO is empty, set the indices to 0
-	 * so we don't wrap the next time
-	 */
-	if (fifo->in == fifo->out)
-		fifo->in = fifo->out = 0;
-
-	return ret;
+	return __kfifo_get(fifo, buffer, len);
 }
 
 /*-------------------------------------------------------------*/
@@ -148,7 +137,7 @@ unsigned int kfifo_get(struct kfifo *fifo,
  * __kfifo_reset - removes the entire FIFO contents, no locking version
  * @fifo: the fifo to be emptied.
  */
-static void __kfifo_reset(struct kfifo *fifo)
+__STATIC_INLINE void __kfifo_reset(struct kfifo *fifo)
 {
 	fifo->in = fifo->out = 0;
 }
@@ -157,7 +146,7 @@ static void __kfifo_reset(struct kfifo *fifo)
  * __kfifo_len - returns the number of bytes available in the FIFO, no locking version
  * @fifo: the fifo to be used.
  */
-static unsigned int __kfifo_len(struct kfifo *fifo)
+__STATIC_INLINE unsigned int __kfifo_len(struct kfifo *fifo)
 {
 	return fifo->in - fifo->out;
 }
@@ -175,7 +164,7 @@ static unsigned int __kfifo_len(struct kfifo *fifo)
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these functions.
  */
-static unsigned int __kfifo_put(struct kfifo *fifo,
+__STATIC_INLINE unsigned int __kfifo_put(struct kfifo *fifo,
                                 unsigned char *buffer, unsigned int len)
 {
 	unsigned int l;
@@ -220,7 +209,7 @@ static unsigned int __kfifo_put(struct kfifo *fifo,
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these functions.
  */
-static unsigned int __kfifo_get(struct kfifo *fifo,
+__STATIC_INLINE unsigned int __kfifo_get(struct kfifo *fifo,
                                 unsigned char *buffer, unsigned int len)
 {
 	unsigned int l;

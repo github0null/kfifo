@@ -47,9 +47,8 @@ __STATIC_INLINE bool is_power_of_2(unsigned int v) {
     return v && !(v & (v - 1));
 }
 
-/* ref: https://graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax */
 __STATIC_INLINE int min(int x, int y) {
-    return y ^ ((x ^ y) & -(x < y)); // min(x, y)
+    return (x < y) ? x : y;
 }
 
 __STATIC_INLINE void         __kfifo_reset(struct kfifo *fifo);

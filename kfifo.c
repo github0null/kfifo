@@ -32,9 +32,9 @@
     #define smp_wmb()       __memory_changed()
 #elif defined(__GNUC__)
     #define __STATIC_INLINE static inline
-    #define smp_mb()        __asm volatile("dmb 0xF" : : : "memory")
-    #define smp_rmb()       __asm volatile("dmb 0xF" : : : "memory")
-    #define smp_wmb()       __asm volatile("dmb 0xF" : : : "memory")
+    #define smp_mb()        __asm volatile("" : : : "memory")
+    #define smp_rmb()       __asm volatile("" : : : "memory")
+    #define smp_wmb()       __asm volatile("" : : : "memory")
 #else
     #define __STATIC_INLINE
     #define smp_mb()
